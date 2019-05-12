@@ -49,11 +49,11 @@
 				height: 100%;
 				<!-- background-color: red; -->
 				position: relative;
-				<!-- display: none; -->
+				display: none;
 			}
 			
 			.playground {
-				display: none;
+				<!-- display: none; -->
 				<!-- background-color: yellow; -->
 			}
 			
@@ -121,6 +121,7 @@
 			
 			<div class="footer">
 				Я футер
+				<button id="send">SEND</button>
 			</div>
 			
 		</div>
@@ -138,8 +139,12 @@
 			console.log(pickedWord);
 
 			$(".task").html("Нарисуйте: " + pickedWord);
+
+			$("#send").click(function() {
+				sendCanvasToBackend();
+			});
 			//todo: ubrat
-			<!-- start(); -->
+			start();
 		});
 
 		function getRandomWord() {
@@ -148,8 +153,19 @@
 				type: "GET",
 				async: false
 			}).responseText;
-
 			return word;
+		}
+
+		function sendCanvasToBackend() {
+			var canvasData = document.getElementById("canv").toDataURL();
+			$.ajax({
+				type: "POST",
+				url: "guessImage",
+				data: canvasData,
+				success: function(data) {
+					console.log(data);
+				}
+			});
 		}
 
 		var pickedWord = "";
