@@ -9,6 +9,8 @@ from PIL import Image
 from base64 import decodebytes
 import base64
 import random
+import json
+from django.http import JsonResponse
 
 class HomePageView(TemplateView):
     template_name = "index.html"
@@ -41,4 +43,4 @@ def guessImage(request):
     print(filename)
     guessedClasses = recognize(filename)
     print(guessedClasses)
-    return HttpResponse(guessedClasses)
+    return JsonResponse(guessedClasses, safe=False)

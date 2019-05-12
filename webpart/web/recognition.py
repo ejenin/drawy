@@ -19,6 +19,7 @@ from keras.layers import MaxPooling2D
 from keras.layers import Flatten
 from keras.layers import Dense
 from keras.preprocessing import image
+from keras import backend as K
 import numpy as np
 import os
 
@@ -124,6 +125,7 @@ def recognize(imagePath):
             recognized.append(classes[i])
         i = i + 1
 
+    K.clear_session()
     return recognized
 
 def get_classes():
@@ -131,4 +133,10 @@ def get_classes():
     dir = os.path.join(script_dir, "../../" + classes_file_name)
     with open(dir) as f:
         lines = f.readlines()
+
+    i = 0
+    while i < len(lines):
+        lines[i] = lines[i].strip()
+        i = i + 1
+
     return lines

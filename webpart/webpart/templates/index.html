@@ -135,10 +135,7 @@
 				});
 			});
 
-			pickedWord = getRandomWord();
-			console.log(pickedWord);
-
-			$(".task").html("Нарисуйте: " + pickedWord);
+			generateTask();
 
 			$("#send").click(function() {
 				sendCanvasToBackend();
@@ -146,6 +143,12 @@
 			//todo: ubrat
 			start();
 		});
+
+		function generateTask() {
+			pickedWord = getRandomWord();
+			console.log(pickedWord);
+			$(".task").html("Нарисуйте: " + pickedWord);
+		}
 
 		function getRandomWord() {
 			const word = $.ajax({
@@ -164,8 +167,33 @@
 				data: canvasData,
 				success: function(data) {
 					console.log(data);
+					checkWinning(data);
 				}
 			});
+		}
+
+		function checkWinning(serverResult) {
+			if (serverResult) {
+				for (var i = 0; i < serverResult.length; i++) {
+					if (serverResult[i] == pickedWord) {
+						generateTask();
+						clearCanvas();
+					}
+				}
+			}
+		}
+
+		function clearCanvas() {
+			var canvas = document.getElementById("canv");
+			canvas.width = $(".cnvs").outerWidth();
+			canvas.height = $(".cnvs").outerHeight();
+			ctx = canvas.getContext("2d");
+			ctx.fillStyle = "#FFFFFF";
+    		ctx.fillRect(0,0,canvas.width,canvas.height);
+    		ctx.fillStyle = "#000000";
+    		ctx.lineJoin = "round";
+			ctx.lineWidth = 10;
+			ctx.lineJoin = "round";
 		}
 
 		var pickedWord = "";
@@ -189,7 +217,7 @@
 			ctx.fillStyle = "#000000";
 			ctx.lineJoin = "round";
 			<!-- ctx.strokeStyle = $('#selColor').val(); -->
-			ctx.lineWidth = 5;
+			ctx.lineWidth = 10;
 			ctx.lineJoin = "round";
 			<!-- ctx.fillRect(0, 0, 150, 75); -->
 			
