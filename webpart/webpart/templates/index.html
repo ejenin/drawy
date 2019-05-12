@@ -120,8 +120,10 @@
 			</div>
 			
 			<div class="footer">
-				Я футер
-				<button id="send">SEND</button>
+				<span>Вы нарисовали: </span>
+				<span id="guess"></span>
+				<span>...?</span>
+				<button id="clr">Очистить холст</button>
 			</div>
 			
 		</div>
@@ -137,8 +139,8 @@
 
 			generateTask();
 
-			$("#send").click(function() {
-				sendCanvasToBackend();
+			$("#clr").click(function() {
+				clearCanvas();
 			});
 			//todo: ubrat
 			start();
@@ -148,6 +150,7 @@
 			pickedWord = getRandomWord();
 			console.log(pickedWord);
 			$(".task").html("Нарисуйте: " + pickedWord);
+			$("#guess").text("");
 		}
 
 		function getRandomWord() {
@@ -174,11 +177,19 @@
 
 		function checkWinning(serverResult) {
 			if (serverResult) {
+				var guesses = "";
+				var win = false;
 				for (var i = 0; i < serverResult.length; i++) {
+					guesses += serverResult[i] + "? ";
 					if (serverResult[i] == pickedWord) {
 						generateTask();
 						clearCanvas();
+						win = true;
+						time = 40;
 					}
+				}
+				if (!win) {
+					$("#guess").text($("#guess").text() + guesses);
 				}
 			}
 		}
@@ -200,6 +211,7 @@
 		
 		var time = 40;
 		var timer = null;
+		var checkerTimer = null;
 		var drawing = false;
 		var ctx;
 		var lastX, lastY;
@@ -244,6 +256,7 @@
 			}
 		
 			timer = setInterval(handleTime, 1000);
+			checkerTimer = setInterval(sendCanvasToBackend, 5000);
 		}
 		
 		function Draw(x, y, isDown) {
@@ -258,11 +271,13 @@
 		}
 		
 		function handleTime() {
-			$(".timer").text("Осталось времени: " + time + " сек");
 			time--;
+			$(".timer").text("Осталось времени: " + time + " сек");
 			
 			if (time == 0) {
 				time = 40;
+				generateTask();
+				clearCanvas();
 			}
 		}
 	</script>

@@ -90,30 +90,11 @@ def train():
         classifier.save(dir)
         print('Save success!')
 
-# Part 3 - Making new predictions
-
-#
-#from keras.preprocessing import image
-#test_image = image.load_img('digits_dataset/single_prediction/dig.png', target_size = (64, 64))
-#test_image = image.img_to_array(test_image)
-#test_image = np.expand_dims(test_image, axis = 0)
-#result = classifier.predict(test_image)
-
-#if result[0][0] == 1:
-#    prediction = 'dog'
-#else:
-#    prediction = 'cat'
-
-#print(result)
-
 def recognize(imagePath):
     script_dir = os.path.abspath(os.path.dirname(__file__))
     dir = os.path.join(script_dir, "../../" + model_file_name)
-    print(dir)
     classifier = load_model(dir)
     imagePath = os.path.join(script_dir, "../" + imagePath)
-    print(imagePath)
-    #imagePath = "/webpath/webpart/" + imagePath
     test_image = image.load_img(imagePath, target_size=(128, 128))
     test_image = image.img_to_array(test_image)
     test_image = np.expand_dims(test_image, axis=0)
