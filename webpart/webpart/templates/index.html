@@ -182,6 +182,10 @@
 			canvas.width = $(".cnvs").outerWidth();
 			canvas.height = $(".cnvs").outerHeight();
 			ctx = canvas.getContext("2d");
+
+			ctx.fillStyle = "#FFFFFF";
+    		ctx.fillRect(0,0,canvas.width,canvas.height);
+
 			ctx.fillStyle = "#000000";
 			ctx.lineJoin = "round";
 			<!-- ctx.strokeStyle = $('#selColor').val(); -->
