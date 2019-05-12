@@ -23,6 +23,7 @@ import numpy as np
 import os
 
 model_file_name = 'digits_model.h5'
+classes_file_name = 'classes.txt'
 
 def train():
 
@@ -103,7 +104,6 @@ def train():
 #print(result)
 
 def recognize(imagePath):
-
     script_dir = os.path.abspath(os.path.dirname(__file__))
     dir = os.path.join(script_dir, "../../" + model_file_name)
     print(dir)
@@ -116,4 +116,19 @@ def recognize(imagePath):
     test_image = np.expand_dims(test_image, axis=0)
     result = classifier.predict(test_image)
     print(result)
-    return "todo"
+    classes = get_classes()
+    recognized = []
+    i = 0
+    while i < len(classes):
+        if result[0][i] != 0:
+            recognized.append(classes[i])
+        i = i + 1
+
+    return recognized
+
+def get_classes():
+    script_dir = os.path.abspath(os.path.dirname(__file__))
+    dir = os.path.join(script_dir, "../../" + classes_file_name)
+    with open(dir) as f:
+        lines = f.readlines()
+    return lines

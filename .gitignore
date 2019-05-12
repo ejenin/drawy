@@ -1,4 +1,5 @@
 .idea/
 dataset/
 venv/
+inputPics/
 *.h5

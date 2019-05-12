@@ -4,10 +4,11 @@ from django.views.generic.base import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
-from .recognition import recognize
+from .recognition import recognize, get_classes
 from PIL import Image
 from base64 import decodebytes
 import base64
+import random
 
 class HomePageView(TemplateView):
     template_name = "index.html"
@@ -22,7 +23,9 @@ class HomePageView(TemplateView):
     #return HttpResponse("Hello, world!")
 
 def getRandomClass(request):
-    return HttpResponse("todo")
+    classes = get_classes()
+
+    return HttpResponse(classes[random.randint(0, len(classes) - 1)])
 
 @csrf_exempt
 def guessImage(request):
@@ -36,5 +39,6 @@ def guessImage(request):
     fs = FileSystemStorage()
     filename = fs.save(myfile, data)
     print(filename)
-    guessedClass = recognize(filename)
-    return HttpResponse(guessedClass)
+    guessedClasses = recognize(filename)
+    print(guessedClasses)
+    return HttpResponse(guessedClasses)
