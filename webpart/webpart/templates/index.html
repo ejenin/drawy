@@ -111,7 +111,7 @@
 					Нарисуйте: Выхухоль
 				</div>
 				<div class="timer">
-					Осталось времени: 20 сек
+					Осталось времени: 40 сек
 				</div>
 			</div>
 			
@@ -133,12 +133,28 @@
 					$(".playground").fadeIn(start);
 				});
 			});
-			
+
+			pickedWord = getRandomWord();
+			console.log(pickedWord);
+
+			$(".task").html("Нарисуйте: " + pickedWord);
 			//todo: ubrat
 			<!-- start(); -->
 		});
+
+		function getRandomWord() {
+			const word = $.ajax({
+				url: "getRandom",
+				type: "GET",
+				async: false
+			}).responseText;
+
+			return word;
+		}
+
+		var pickedWord = "";
 		
-		var time = 20;
+		var time = 40;
 		var timer = null;
 		var drawing = false;
 		var ctx;
@@ -198,7 +214,7 @@
 			time--;
 			
 			if (time == 0) {
-				time = 20;
+				time = 40;
 			}
 		}
 	</script>

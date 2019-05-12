@@ -3,5 +3,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.HomePageView.as_view(), name='index')
+    path('', views.HomePageView.as_view(), name='index'),
+    path('getRandom', views.getRandomClass, name='random')
 ]

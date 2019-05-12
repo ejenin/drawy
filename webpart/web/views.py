@@ -13,3 +13,6 @@ class HomePageView(TemplateView):
 # Create your views here.
 #def index(request):
     #return HttpResponse("Hello, world!")
+
+def getRandomClass(request):
+    return HttpResponse("todo")
