@@ -1,1 +1,1 @@
-web gunicorn webpart:app
+web gunicorn app:webpart
