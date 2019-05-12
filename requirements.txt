@@ -2,3 +2,4 @@ django
 tensorflow
 Pillow
 gunicorn
+django-heroku
